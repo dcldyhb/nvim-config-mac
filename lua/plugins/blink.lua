@@ -15,20 +15,21 @@ return {
     -- 2. 核心按键映射
     opts.keymap = {
       preset = "none",
-      ["<Tab>"] = { "accept", "snippet_forward", "fallback" },
+      ["<Tab>"] = { "snippet_forward", "accept", "fallback" },
       ["<S-Tab>"] = { "snippet_backward", "fallback" },
       ["<C-j>"] = { "select_next", "fallback" },
       ["<C-k>"] = { "select_prev", "fallback" },
-      ["<CR>"] = { "fallback" },
+      ["<CR>"] = { "accept", "fallback" },
       ["<C-e>"] = { "hide", "fallback" },
+      ["<ESC>"] = { "hide", "fallback" },
     }
 
     -- 3. 补全行为定制 (注意这里是 = 而不是 :)
     opts.completion = {
       list = {
         selection = {
-          preselect = false,
-          auto_insert = false,
+          preselect = true,
+          auto_insert = true,
         },
       },
       menu = { draw = { treesitter = { "lsp" } } },
