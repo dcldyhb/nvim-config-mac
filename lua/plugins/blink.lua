@@ -27,8 +27,8 @@ return {
     opts.completion = {
       list = {
         selection = {
-          preselect = true,
-          auto_insert = true,
+          preselect = false,
+          auto_insert = false,
         },
       },
       menu = { draw = { treesitter = { "lsp" } } },
