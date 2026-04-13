@@ -13,3 +13,17 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.opt_local.spell = false
   end,
 })
+
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+  pattern = "*.md",
+  callback = function(args)
+    vim.bo[args.buf].filetype = "markdown"
+  end,
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "markdown.mdx",
+  callback = function(args)
+    vim.bo[args.buf].filetype = "markdown"
+  end,
+})
