@@ -3,6 +3,7 @@ return {
   -- 使用 function 形式强制覆盖 LazyVim 的默认设置
   opts = function(_, opts)
     -- 1. 强制重定义 sources 结构，彻底抹除 buffer
+    opts.snippets = { preset = "luasnip" }
     opts.sources = {
       -- 只保留你想要的源
       default = { "lsp", "path", "snippets" },
