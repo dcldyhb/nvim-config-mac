@@ -1,45 +1,58 @@
 return {
-  "saghen/blink.cmp",
-  -- 使用 function 形式强制覆盖 LazyVim 的默认设置
-  opts = function(_, opts)
-    -- 1. 强制重定义 sources 结构，彻底抹除 buffer
-    opts.snippets = { preset = "luasnip" }
-    opts.sources = {
-      -- 只保留你想要的源
-      default = { "lsp", "path", "snippets" },
-      -- 显式禁用 buffer 模块
-      providers = {
-        buffer = { enabled = false },
-      },
-    }
+  {
+    "saghen/blink.cmp",
+    dependencies = {
+      "erooke/blink-cmp-latex",
+    },
+    opts = function(_, opts)
+      opts.snippets = { preset = "luasnip" }
 
-    -- 2. 核心按键映射
-    opts.keymap = {
-      preset = "none",
-      ["<Tab>"] = { "snippet_forward", "accept", "fallback" },
-      ["<S-Tab>"] = { "snippet_backward", "fallback" },
-      ["<C-j>"] = { "select_next", "fallback" },
-      ["<C-k>"] = { "select_prev", "fallback" },
-      ["<CR>"] = { "accept", "fallback" },
-      ["<C-e>"] = { "hide", "fallback" },
-      ["<ESC>"] = { "hide", "fallback" },
-    }
-
-    -- 3. 补全行为定制 (注意这里是 = 而不是 :)
-    opts.completion = {
-      list = {
-        selection = {
-          preselect = true,
-          auto_insert = true,
+      opts.sources = {
+        default = { "lsp", "path", "snippets" },
+        per_filetype = {
+          tex = { inherit_defaults = true, "omni", "latex" },
+          plaintex = { inherit_defaults = true, "omni", "latex" },
+          markdown = { inherit_defaults = true, "latex" },
         },
-      },
-      menu = { draw = { treesitter = { "lsp" } } },
-      documentation = { auto_show = true },
-    }
+        providers = {
+          buffer = { enabled = false },
+          latex = {
+            name = "Latex",
+            module = "blink-cmp-latex",
+            min_keyword_length = 2,
+            opts = {
+              -- 你要的是 \phi，不是 φ
+              insert_command = true,
+            },
+          },
+        },
+      }
 
-    -- 4. 开启签名帮助
-    opts.signature = { enabled = true }
+      opts.keymap = {
+        preset = "none",
+        ["<Tab>"] = { "snippet_forward", "accept", "fallback" },
+        ["<S-Tab>"] = { "snippet_backward", "fallback" },
+        ["<C-j>"] = { "select_next", "fallback" },
+        ["<C-k>"] = { "select_prev", "fallback" },
+        ["<CR>"] = { "accept", "fallback" },
+        ["<C-e>"] = { "hide", "fallback" },
+        ["<ESC>"] = { "hide", "fallback" },
+      }
 
-    return opts
-  end,
+      opts.completion = {
+        list = {
+          selection = {
+            preselect = true,
+            auto_insert = true,
+          },
+        },
+        menu = { draw = { treesitter = { "lsp" } } },
+        documentation = { auto_show = true },
+      }
+
+      opts.signature = { enabled = true }
+
+      return opts
+    end,
+  },
 }
